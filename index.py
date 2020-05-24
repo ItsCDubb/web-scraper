@@ -4,9 +4,6 @@ import pandas as pd
 
 url = "https://boston.craigslist.org/search/npo"
 
-job_dict = {"key":"value"}
-job_dict['new key'] = 'new value'
-
 npo_jobs = {}
 job_no = 0
 while True:
@@ -28,9 +25,9 @@ while True:
         job_attributes = job_attributes_tag.text if job_attributes_tag else "N/A"
         job_no +=1
         npo_jobs[job_no] = [title, location, date, link, job_attributes, job_description]
-        # print("Job Title:", title, "\nLocation:", location, "\nDate:", date, "\nLink:", link,"\n", job_attributes, "\nJob Description:", job_description, "\n---")
 
     url_tag = soup.find("a", {"title": "next page"})
+
     if url_tag.get("href"):
         url = "https://boston.craigslist.org" + url_tag.get("href")
         print(url)
@@ -40,4 +37,4 @@ print("Total Jobs:", job_no)
 
 npo_jobs_df = pd.DataFrame.from_dict(npo_jobs, orient = 'index', columns = ['Job Title','Location','Date', 'Link', 'Job Attributes', 'Job Description'])
 npo_jobs_df.head()
-npo_jobs_df.to_csv('npo_jobs.csv')
+npo_jobs_df.to_csv('job_search.csv')
